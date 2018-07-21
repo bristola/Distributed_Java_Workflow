@@ -192,69 +192,6 @@ public class AWSUtilities {
         return ip;
     }
 
-    public void transferWebScraper(List<String> ips, String pemLocation) {
-        List<Thread> threads = new ArrayList<Thread>();
-        for (String ip : ips) {
-            Thread t = new Thread(new Runnable() {
-                public void run() {
-                    transferFile(ip, pemLocation, "ubuntu", "../src/com/web/DistributedWebScraperV1.java", "src/com/web/");
-                    transferFile(ip, pemLocation, "ubuntu", "../jar/jsoup-1.7.2.jar", "jar/");
-                    transferFile(ip, pemLocation, "ubuntu", "../src/com/web/SQLConnector.java","src/com/web/");
-                    transferFile(ip, pemLocation, "ubuntu", "../jar/mysql-connector-java-5.1.25-bin.jar", "jar/");
-                }
-            });
-            threads.add(t);
-            t.start();
-        }
-
-        for (Thread t : threads) {
-            try {
-                t.join();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void runCode(List<String> ips, String pemLocation) {
-        String[] classes = {
-            "class01",
-            "class02",
-            "class03",
-            "class04"
-        };
-
-        List<Thread> threads = new ArrayList<Thread>();
-
-        for (int i = 0; i < ips.size(); i++) {
-            threads.add(createClassThread(ips.get(i), classes[i], pemLocation));
-        }
-
-        for (Thread t : threads) {
-            try {
-                t.join();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-
-    public Thread createClassThread(String ip, String classType, String pemLocation) {
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                String[] commands = new String[4];
-                commands[0] = "cd class";
-                commands[1] = "cd class && javac -d '../class/' -cp '../jar/*' ../src/com/web/*.java";
-                commands[2] = "cd class && java -cp .:../jar/* com.web.DistributedWebScraperV1 everything " + classType;
-                commands[3] = "cd class && java -cp .:../jar/* com.web.SQLConnector";
-                executeCommands(ip, pemLocation, "ubuntu", commands);
-            }
-        });
-        t.start();
-        return t;
-    }
-
     public void setupMachines(List<String> ips, String pemLocation) {
         String[] commands = {
             "sudo apt-get update",
@@ -315,46 +252,6 @@ public class AWSUtilities {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public List<String> getFiles(List<String> ips, String pemLocation) {
-        String[] files = {
-            "bcr-class01.txt",
-            "bcr-class02.txt",
-            "bcr-class03.txt",
-            "bcr-class04.txt"
-        };
-
-        List<String> fileNames = new ArrayList<String>();
-
-        for (int i = 0; i < ips.size(); i++) {
-            String fileName = "../upload/"+files[i];
-            getFile(ips.get(i), pemLocation, "ubuntu", "./upload/txt_files/"+files[i], fileName);
-            fileNames.add(fileName);
-        }
-
-        return fileNames;
-
-    }
-
-    public List<String> getFiles2(List<String> ips, String pemLocation) {
-        String[] files = {
-            "class01-textData.txt",
-            "class02-textData.txt",
-            "class03-textData.txt",
-            "class04-textData.txt"
-        };
-
-        List<String> fileNames = new ArrayList<String>();
-
-        for (int i = 0; i < ips.size(); i++) {
-            String fileName = "../upload/"+files[i];
-            getFile(ips.get(i), pemLocation, "ubuntu", "./upload/txt_files/"+files[i], fileName);
-            fileNames.add(fileName);
-        }
-
-        return fileNames;
-
     }
 
     public void getFile(String ip, String pemLocation, String username, String fileToGet, String dest) {
@@ -441,18 +338,6 @@ public class AWSUtilities {
             e.printStackTrace();
         }
 
-    }
-
-    public void uploadToDropBox(String fileName, String saveName, String dropBoxKey) {
-        DbxRequestConfig drc = new DbxRequestConfig("CMPSC441/Lab4", "en_US");
-        DbxClientV2 client = new DbxClientV2(drc, dropBoxKey);
-
-        try {
-            FileInputStream fis = new FileInputStream(fileName);
-            client.files().uploadBuilder("/"+saveName).uploadAndFinish(fis);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public String getPemName() {

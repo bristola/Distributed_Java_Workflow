@@ -1,0 +1,5 @@
+key name = {Name of your AWS key}
+machine type = {Machine type for machines ex. t2.micro}
+security group = {Security group name for machines}
+image-id = {Image ID for machines}
+absolute path to .pem file = {Path to your .pem file}

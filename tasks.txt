@@ -1,0 +1,6 @@
+name = {Name of a task}
+machine = {Machine label}
+javaFilePath = {Path to java file to be executed}
+input = {Required file for java file execution located in /upload/input_files/}
+output = {File that is produced from the code's execution}
+dependency = {Name of jar file required for code's execution. Located in the /jar/ folder}

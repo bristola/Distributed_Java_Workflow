@@ -1,6 +1,6 @@
 # Distributed Java Workflow
 ## Execute java files organized in a acyclic graph distributively on AWS
-
+### Austin Bristol
 - - - -
 
 ## Workflow Framework

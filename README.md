@@ -30,4 +30,4 @@
 * Add all of the edges of your workflow graph to the edges.txt file.
 * Traverse to the class directory
 * Compile with javac -d "../class/" -cp "../jar/\*" ../src/com/web/\*.java
-* Execute with java -cp .:../jar/\* com.web.MovieFinder (java -cp .;../jar/\* com.web.MovieFinder on windows)
+* Execute with java -cp .:../jar/\* com.web.Driver (java -cp .;../jar/\* com.web.Driver on windows)
